@@ -222,6 +222,29 @@
   .res-title { font-size: 13px; font-weight: 600; margin-bottom: 4px; }
   .res-sub { font-size: 12px; color: var(--text-muted); }
 
+  /* QUICK ACCESS */
+  .quick-access {
+    display: flex; gap: 16px; margin-bottom: 40px; flex-wrap: wrap;
+  }
+  .qa-btn {
+    flex: 1; min-width: 250px;
+    display: flex; align-items: center; justify-content: center; gap: 12px;
+    padding: 16px; border-radius: 12px;
+    text-decoration: none; font-weight: 600; font-size: 15px;
+    transition: all 0.3s;
+    border: 1px solid var(--border);
+  }
+  .qa-btn.firewall {
+    background: rgba(250,70,22,0.1); border-color: rgba(250,70,22,0.3); color: #fff;
+  }
+  .qa-btn.firewall:hover { background: rgba(250,70,22,0.2); transform: translateY(-3px); box-shadow: 0 4px 15px rgba(250,70,22,0.2); }
+  
+  .qa-btn.study {
+    background: rgba(59,130,246,0.1); border-color: rgba(59,130,246,0.3); color: #fff;
+  }
+  .qa-btn.study:hover { background: rgba(59,130,246,0.2); transform: translateY(-3px); box-shadow: 0 4px 15px rgba(59,130,246,0.2); }
+  .qa-icon { font-size: 20px; }
+
   /* RESET BTN */
   .reset-btn {
     background: transparent; border: 1px solid var(--border);
@@ -301,6 +324,16 @@
     <div class="exam-item"><label>Passing Score</label><span>70%</span></div>
     <div class="exam-item"><label>Exam Price</label><span>~$175 USD</span></div>
     <div class="exam-item"><label>Valid For</label><span>2 Years</span></div>
+  </div>
+
+  <!-- QUICK ACCESS LAB & MATERIALS -->
+  <div class="quick-access">
+    <a href="https://10.1.1.100" target="_blank" class="qa-btn firewall">
+      <span class="qa-icon">🔥</span> Launch Local Firewall (10.1.1.100)
+    </a>
+    <a href="#" onclick="alert('Place your Study Guide PDF in the folder and update this link!')" class="qa-btn study">
+      <span class="qa-icon">📖</span> PCNSA Study Guide
+    </a>
   </div>
 
   <!-- PHASE 1 -->
