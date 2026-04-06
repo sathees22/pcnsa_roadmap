@@ -238,6 +238,23 @@
     border-top: 1px solid var(--border);
   }
 
+  /* PROFILE BADGE */
+  .profile-badge {
+    display: inline-flex; align-items: center; gap: 12px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--border);
+    padding: 8px 16px 8px 8px; border-radius: 40px;
+    margin-bottom: 24px;
+    text-align: left;
+  }
+  .profile-img {
+    width: 40px; height: 40px; border-radius: 50%;
+    object-fit: cover; border: 2px solid var(--primary);
+  }
+  .profile-info { display: flex; flex-direction: column; }
+  .profile-name { font-size: 14px; font-weight: 700; color: #fff; }
+  .profile-role { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
+
   @media (max-width: 600px) {
     .hero-stats { gap: 20px; }
     .phase-header { flex-wrap: wrap; }
@@ -247,6 +264,13 @@
 <body>
 
 <div class="hero">
+  <div class="profile-badge">
+    <img class="profile-img" src="https://github.com/sathees22.png" alt="Sathees Kumar">
+    <div class="profile-info">
+      <span class="profile-name">Sathees Kumar</span>
+      <span class="profile-role">PCNSA Candidate</span>
+    </div>
+  </div>
   <div class="hero-badge">🔥 Certification Guide 2026</div>
   <h1>Palo Alto PCNSA<br>Study Roadmap</h1>
   <p>Palo Alto Networks Certified Network Security Administrator — complete step-by-step preparation guide</p>
@@ -745,7 +769,7 @@
 </main>
 
 <footer>
-  <p>Palo Alto PCNSA Study Roadmap · Built for success 🔥 · Good luck on your exam!</p>
+  <p>Palo Alto PCNSA Study Roadmap · Prepared for <strong>Sathees Kumar</strong> 🔥</p>
 </footer>
 
 <script>
