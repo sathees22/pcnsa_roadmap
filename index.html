@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Palo Alto PCNSA Study Roadmap 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --primary: #FA4616;
+    --primary-dark: #c23500;
+    --accent: #00C4CC;
+    --accent2: #FFB300;
+    --bg: #0a0e1a;
+    --bg2: #111827;
+    --bg3: #1a2234;
+    --card: #151e2f;
+    --border: #1e2d45;
+    --text: #e8edf5;
+    --text-muted: #8095b0;
+    --success: #22c55e;
+    --warning: #f59e0b;
+    --info: #3b82f6;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* HERO */
+  .hero {
+    background: linear-gradient(135deg, #0a0e1a 0%, #1a0f05 50%, #0a0e1a 100%);
+    padding: 60px 20px 40px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    border-bottom: 1px solid var(--border);
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -100px; left: 50%; transform: translateX(-50%);
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(250,70,22,0.15) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(250,70,22,0.1);
+    border: 1px solid rgba(250,70,22,0.3);
+    border-radius: 50px; padding: 6px 16px;
+    font-size: 12px; font-weight: 600; letter-spacing: 1px;
+    color: var(--primary); margin-bottom: 20px;
+    text-transform: uppercase;
+  }
+  .hero h1 {
+    font-size: clamp(28px, 5vw, 56px);
+    font-weight: 800; line-height: 1.1;
+    background: linear-gradient(135deg, #fff 0%, #FA4616 60%, #FFB300 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    margin-bottom: 16px;
+  }
+  .hero p {
+    font-size: 18px; color: var(--text-muted);
+    max-width: 600px; margin: 0 auto 30px;
+  }
+  .hero-stats {
+    display: flex; justify-content: center; gap: 40px;
+    flex-wrap: wrap; margin-top: 30px;
+  }
+  .stat { text-align: center; }
+  .stat-val { font-size: 28px; font-weight: 800; color: var(--primary); }
+  .stat-label { font-size: 12px; color: var(--text-muted); margin-top: 4px; text-transform: uppercase; letter-spacing: 0.5px; }
+
+  /* PROGRESS BAR */
+  .progress-wrap {
+    background: var(--bg2);
+    padding: 20px;
+    border-bottom: 1px solid var(--border);
+    position: sticky; top: 0; z-index: 100;
+  }
+  .progress-inner {
+    max-width: 900px; margin: 0 auto;
+    display: flex; align-items: center; gap: 16px;
+  }
+  .progress-label { font-size: 13px; color: var(--text-muted); white-space: nowrap; }
+  .progress-bar { flex: 1; height: 8px; background: var(--border); border-radius: 4px; overflow: hidden; }
+  .progress-fill {
+    height: 100%; width: 0%;
+    background: linear-gradient(90deg, var(--primary), var(--accent2));
+    border-radius: 4px; transition: width 0.5s ease;
+  }
+  .progress-pct { font-size: 13px; font-weight: 700; color: var(--accent2); white-space: nowrap; }
+
+  /* MAIN */
+  main { max-width: 900px; margin: 0 auto; padding: 40px 20px 80px; }
+
+  /* PHASE */
+  .phase {
+    margin-bottom: 50px;
+    opacity: 0; transform: translateY(30px);
+    animation: fadeUp 0.6s forwards;
+  }
+  .phase:nth-child(1) { animation-delay: 0.1s; }
+  .phase:nth-child(2) { animation-delay: 0.2s; }
+  .phase:nth-child(3) { animation-delay: 0.3s; }
+  .phase:nth-child(4) { animation-delay: 0.4s; }
+  .phase:nth-child(5) { animation-delay: 0.5s; }
+  .phase:nth-child(6) { animation-delay: 0.6s; }
+  @keyframes fadeUp {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .phase-header {
+    display: flex; align-items: center; gap: 16px;
+    margin-bottom: 20px; cursor: pointer;
+  }
+  .phase-num {
+    width: 52px; height: 52px; border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px; font-weight: 800; flex-shrink: 0;
+  }
+  .phase-info { flex: 1; }
+  .phase-info h2 { font-size: 20px; font-weight: 700; }
+  .phase-info p { font-size: 13px; color: var(--text-muted); margin-top: 3px; }
+  .phase-tag {
+    font-size: 11px; font-weight: 600; text-transform: uppercase;
+    padding: 4px 12px; border-radius: 20px; letter-spacing: 0.5px;
+    flex-shrink: 0;
+  }
+
+  /* Color themes per phase */
+  .p1 .phase-num { background: rgba(250,70,22,0.15); color: #FA4616; border: 1px solid rgba(250,70,22,0.3); }
+  .p1 .phase-tag { background: rgba(250,70,22,0.1); color: #FA4616; border: 1px solid rgba(250,70,22,0.2); }
+  .p2 .phase-num { background: rgba(59,130,246,0.15); color: #3b82f6; border: 1px solid rgba(59,130,246,0.3); }
+  .p2 .phase-tag { background: rgba(59,130,246,0.1); color: #3b82f6; border: 1px solid rgba(59,130,246,0.2); }
+  .p3 .phase-num { background: rgba(34,197,94,0.15); color: #22c55e; border: 1px solid rgba(34,197,94,0.3); }
+  .p3 .phase-tag { background: rgba(34,197,94,0.1); color: #22c55e; border: 1px solid rgba(34,197,94,0.2); }
+  .p4 .phase-num { background: rgba(168,85,247,0.15); color: #a855f7; border: 1px solid rgba(168,85,247,0.3); }
+  .p4 .phase-tag { background: rgba(168,85,247,0.1); color: #a855f7; border: 1px solid rgba(168,85,247,0.2); }
+  .p5 .phase-num { background: rgba(255,179,0,0.15); color: #FFB300; border: 1px solid rgba(255,179,0,0.3); }
+  .p5 .phase-tag { background: rgba(255,179,0,0.1); color: #FFB300; border: 1px solid rgba(255,179,0,0.2); }
+  .p6 .phase-num { background: rgba(0,196,204,0.15); color: #00C4CC; border: 1px solid rgba(0,196,204,0.3); }
+  .p6 .phase-tag { background: rgba(0,196,204,0.1); color: #00C4CC; border: 1px solid rgba(0,196,204,0.2); }
+
+  /* STEP */
+  .steps { display: flex; flex-direction: column; gap: 12px; }
+  .step {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px; padding: 18px 20px;
+    display: flex; gap: 16px; align-items: flex-start;
+    cursor: pointer; transition: all 0.3s;
+    position: relative; overflow: hidden;
+  }
+  .step::before {
+    content: ''; position: absolute;
+    left: 0; top: 0; bottom: 0; width: 3px;
+    background: var(--border); border-radius: 0 2px 2px 0;
+    transition: background 0.3s;
+  }
+  .step:hover { border-color: rgba(250,70,22,0.3); transform: translateX(4px); }
+  .step.done { background: rgba(34,197,94,0.05); border-color: rgba(34,197,94,0.2); }
+  .step.done::before { background: #22c55e; }
+
+  .step-check {
+    width: 24px; height: 24px; border-radius: 8px;
+    border: 2px solid var(--border); flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.3s; margin-top: 1px;
+  }
+  .step.done .step-check {
+    background: #22c55e; border-color: #22c55e;
+    box-shadow: 0 0 10px rgba(34,197,94,0.4);
+  }
+  .step.done .step-check::after { content: '✓'; color: white; font-size: 13px; font-weight: 700; }
+
+  .step-body { flex: 1; }
+  .step-title { font-size: 15px; font-weight: 600; margin-bottom: 5px; }
+  .step.done .step-title { color: var(--text-muted); text-decoration: line-through; }
+  .step-desc { font-size: 13px; color: var(--text-muted); line-height: 1.6; }
+  .step-meta { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
+  .step-pill {
+    font-size: 11px; padding: 3px 10px; border-radius: 20px; font-weight: 500;
+    background: rgba(255,255,255,0.05); border: 1px solid var(--border);
+    color: var(--text-muted);
+  }
+  .step-pill.time { color: var(--accent2); border-color: rgba(255,179,0,0.2); background: rgba(255,179,0,0.05); }
+  .step-pill.type { color: var(--accent); border-color: rgba(0,196,204,0.2); background: rgba(0,196,204,0.05); }
+  .step-pill.prio { color: var(--primary); border-color: rgba(250,70,22,0.2); background: rgba(250,70,22,0.05); }
+
+  /* EXAM INFO CARD */
+  .exam-card {
+    background: linear-gradient(135deg, rgba(250,70,22,0.1), rgba(255,179,0,0.05));
+    border: 1px solid rgba(250,70,22,0.25);
+    border-radius: 16px; padding: 24px;
+    margin-bottom: 40px;
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 20px;
+  }
+  .exam-item { }
+  .exam-item label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.8px; color: var(--text-muted); display: block; margin-bottom: 6px; }
+  .exam-item span { font-size: 16px; font-weight: 700; color: var(--text); }
+
+  /* RESOURCES */
+  .resources {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 16px; padding: 24px; margin-top: 40px;
+  }
+  .resources h3 { font-size: 16px; font-weight: 700; margin-bottom: 16px; color: var(--accent); }
+  .res-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; }
+  .res-item {
+    background: var(--bg3); border: 1px solid var(--border);
+    border-radius: 10px; padding: 14px;
+    transition: all 0.3s;
+  }
+  .res-item:hover { border-color: var(--accent); transform: translateY(-2px); }
+  .res-icon { font-size: 22px; margin-bottom: 8px; }
+  .res-title { font-size: 13px; font-weight: 600; margin-bottom: 4px; }
+  .res-sub { font-size: 12px; color: var(--text-muted); }
+
+  /* RESET BTN */
+  .reset-btn {
+    background: transparent; border: 1px solid var(--border);
+    color: var(--text-muted); padding: 8px 20px; border-radius: 8px;
+    cursor: pointer; font-size: 13px; transition: all 0.3s;
+    font-family: 'Inter', sans-serif;
+  }
+  .reset-btn:hover { border-color: var(--primary); color: var(--primary); }
+
+  /* FOOTER */
+  footer {
+    text-align: center; padding: 30px;
+    color: var(--text-muted); font-size: 13px;
+    border-top: 1px solid var(--border);
+  }
+
+  @media (max-width: 600px) {
+    .hero-stats { gap: 20px; }
+    .phase-header { flex-wrap: wrap; }
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-badge">🔥 Certification Guide 2026</div>
+  <h1>Palo Alto PCNSA<br>Study Roadmap</h1>
+  <p>Palo Alto Networks Certified Network Security Administrator — complete step-by-step preparation guide</p>
+  <div class="hero-stats">
+    <div class="stat"><div class="stat-val">6</div><div class="stat-label">Phases</div></div>
+    <div class="stat"><div class="stat-val">~90</div><div class="stat-label">Days Plan</div></div>
+    <div class="stat"><div class="stat-val">80</div><div class="stat-label">Exam Mins</div></div>
+    <div class="stat"><div class="stat-val">70%</div><div class="stat-label">Pass Score</div></div>
+  </div>
+</div>
+
+<div class="progress-wrap">
+  <div class="progress-inner">
+    <span class="progress-label">Your Progress</span>
+    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+    <span class="progress-pct" id="progressPct">0%</span>
+    <button class="reset-btn" onclick="resetAll()">Reset</button>
+  </div>
+</div>
+
+<main>
+
+  <!-- EXAM INFO -->
+  <div class="exam-card">
+    <div class="exam-item"><label>Exam Code</label><span>PCNSA</span></div>
+    <div class="exam-item"><label>Duration</label><span>80 Minutes</span></div>
+    <div class="exam-item"><label>Questions</label><span>~75 Questions</span></div>
+    <div class="exam-item"><label>Passing Score</label><span>70%</span></div>
+    <div class="exam-item"><label>Exam Price</label><span>~$175 USD</span></div>
+    <div class="exam-item"><label>Valid For</label><span>2 Years</span></div>
+  </div>
+
+  <!-- PHASE 1 -->
+  <div class="phase p1">
+    <div class="phase-header">
+      <div class="phase-num">01</div>
+      <div class="phase-info">
+        <h2>Foundations & Prerequisites</h2>
+        <p>Week 1–2 · Build your networking base before diving into PAN-OS</p>
+      </div>
+      <div class="phase-tag">Beginner</div>
+    </div>
+    <div class="steps">
+      <div class="step" id="s1" onclick="toggle('s1')">
+        <div class="step-check"></div>
+        <div class="step-body">
+          <div class="step-title">Networking Fundamentals Review</div>
+          <div class="step-desc">OSI model, TCP/IP, subnetting (CIDR), VLANs, routing basics (static & dynamic), NAT. You MUST be solid here — PCNSA assumes this knowledge.</div>
+          <div class="step-meta">
+            <span class="step-pill time">⏱ 1 Week</span>
+            <span class="step-pill type">📖 Theory</span>
+            <span class="step-pill prio">🔴 Critical</span>
+          </div>
+        </div>
+      </div>
+      <div class="step" id="s2" onclick="toggle('s2')">
+        <div class="step-check"></div>
+        <div class="step-body">
+          <div class="step-title">Cybersecurity Basics</div>
+          <div class="step-desc">Understand firewalls, IDS/IPS, VPNs, threat types (malware, phishing, DoS), encryption concepts (TLS, SSL), and Zero Trust principles.</div>
+          <div class="step-meta">
+            <span class="step-pill time">⏱ 3 Days</span>
+            <span class="step-pill type">📖 Theory</span>
+            <span class="step-pill prio">🔴 Critical</span>
+          </div>
+        </div>
+      </div>
+      <div class="step" id="s3" onclick="toggle('s3')">
+        <div class="step-check"></div>
+        <div class="step-body">
+          <div class="step-title">Palo Alto Ecosystem Overview</div>
+          <div class="step-desc">Learn Palo Alto's product family: PA-Series (hardware), VM-Series, CN-Series, Panorama, Prisma Access, Cortex XDR. Understand how PCNSA fits in the certification path.</div>
+          <div class="step-meta">
+            <span class="step-pill time">⏱ 2 Days</span>
+            <span class="step-pill type">📖 Theory</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PHASE 2 -->
+  <div class="phase p2">
+    <div class="phase-header">
+      <div class="phase-num">02</div>
+      <div class="phase-info">
+        <h2>PAN-OS Architecture & Initial Setup</h2>
+        <p>Week 2–3 · Learn the core architecture of Palo Alto firewalls</p>
+      </div>
+      <div class="phase-tag">Core</div>
+    </div>
+    <div class="steps">
+      <div class="step" id="s4" onclick="toggle('s4')">
+        <div class="step-check"></div>
+        <div class="step-body">
+          <div class="step-title">PAN-OS Architecture Deep Dive</div>
+          <div class="step-desc">Single-pass parallel processing (SP3), data plane vs management plane separation, App-ID, User-ID, Content-ID, Device-ID — the four core identification engines.</div>
+          <div class="step-meta">
+            <span class="step-pill time">⏱ 3 Days</span>
+            <span class="step-pill type">📚 Study</span>
+            <span class="step-pill prio">🔴 Critical</span>
+          </div>
+        </div>
+      </div>
+      <div class="step" id="s5" onclick="toggle('s5')">
+        <div class="step-check"></div>
+        <div class="step-body">
+          <div class="step-title">Initial Firewall Configuration</div>
+          <div class="step-desc">Management interface setup, admin accounts, licensing, software updates, commit/validate process, basic system settings (DNS, NTP, hostname).</div>
+          <div class="step-meta">
+            <span class="step-pill time">⏱ 2 Days</span>
+            <span class="step-pill type">🖥️ Lab</span>
+            <span class="step-pill prio">🔴 Critical</span>
+          </div>
+        </div>
+      </div>
+      <div class="step" id="s6" onclick="toggle('s6')">
+        <div class="step-check"></div>
+        <div class="step-body">
+          <div class="step-title">Interface Types & Zones</div>
+          <div class="step-desc">Layer 2, Layer 3, Virtual Wire, Tap, HA interfaces. Security zones concept — Trust, Untrust, DMZ. Understand intrazone vs interzone traffic.</div>
+          <div class="step-meta">
+            <span class="step-pill time">⏱ 2 Days</span>
+            <span class="step-pill type">🖥️ Lab</span>
+            <span class="step-pill prio">🔴 Critical</span>
+          </div>
+        </div>
+      </div>
+      <div class="step" id="s7" onclick="toggle('s7')">
+        <div class="step-check"></div>
+        <div class="step-body">
+          <div class="step-title">Routing & Virtual Routers</div>
+          <div class="step-desc">Configure static routes, virtual routers, route redistribution, ECMP. Understand how PAN-OS routes traffic between zones.</div>
+          <div class="step-meta">
+            <span class="step-pill time">⏱ 2 Days</span>
+            <span class="step-pill type">🖥️ Lab</span>
+          </div>
+        </div>
+      </div>
+      <div class="step" id="s8" onclick="toggle('s8')">
+        <div class="step-check"></div>
+        <div class="step-body">
+          <div class="step-title">NAT Policies</div>
+          <div class="step-desc">Source NAT (SNAT), Destination NAT (DNAT), U-Turn NAT, No-NAT rules. Configure NAT for internet access and port forwarding scenarios.</div>
+          <div class="step-meta">
+            <span class="step-pill time">⏱ 2 Days</span>
+            <span class="step-pill type">🖥️ Lab</span>
+            <span class="step-pill prio">🔴 Critical</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PHASE 3 -->
+  <div class="phase p3">
+    <div class="phase-header">
+      <div class="phase-num">03</div>
+      <div class="phase-info">
+        <h2>Security Policies & App-ID</h2>
+        <p>Week 4–5 · Master policy creation — the heart of PCNSA</p>
+      </div>
+      <div class="phase-tag">Core</div>
+    </div>
+    <div class="steps">
+      <div class="step" id="s9" onclick="toggle('s9')">
+        <div class="step-check"></div>
+        <div class="step-body">
+          <div class="step-title">Security Policy Fundamentals</div>
+          <div class="step-desc">Policy rule components (source/dest zone, address, app, service, action), rule ordering, shadowed rules, default deny-all, intrazone default allow.</div>
+          <div class="step-meta">
+            <span class="step-pill time">⏱ 3 Days</span>
+            <span class="step-pill type">🖥️ Lab</span>
+            <span class="step-pill prio">🔴 Critical</span>
+          </div>
+        </div>
+      </div>
+      <div class="step" id="s10" onclick="toggle('s10')">
+        <div class="step-check"></div>
+        <div class="step-body">
+          <div class="step-title">App-ID Deep Dive</div>
+          <div class="step-desc">How App-ID identifies applications, application signatures, App-ID updates, unknown-tcp/udp, application dependencies, application groups and filters.</div>
+          <div class="step-meta">
+            <span class="step-pill time">⏱ 2 Days</span>
+            <span class="step-pill type">📚 Study</span>
+            <span class="step-pill prio">🔴 Critical</span>
+          </div>
+        </div>
+      </div>
+      <div class="step" id="s11" onclick="toggle('s11')">
+        <div class="step-check"></div>
+        <div class="step-body">
+          <div class="step-title">User-ID Configuration</div>
+          <div class="step-desc">Map IP to users via Active Directory, LDAP, syslog, XML API. Captive Portal authentication, group mapping, User-ID agents, terminal services agent.</div>
+          <div class="step-meta">
+            <span class="step-pill time">⏱ 2 Days</span>
+            <span class="step-pill type">🖥️ Lab</span>
+            <span class="step-pill prio">🟡 Important</span>
+          </div>
+        </div>
+      </div>
+      <div class="step" id="s12" onclick="toggle('s12')">
+        <div class="step-check"></div>
+        <div class="step-body">
+          <div class="step-title">Address Objects & Groups</div>
+          <div class="step-desc">IP/Netmask, IP Range, FQDN, dynamic address groups. Tags and dynamic tagging. How to use them effectively in security policies.</div>
+          <div class="step-meta">
+            <span class="step-pill time">⏱ 1 Day</span>
+            <span class="step-pill type">🖥️ Lab</span>
+          </div>
+        </div>
+      </div>
+      <div class="step" id="s13" onclick="toggle('s13')">
+        <div class="step-check"></div>
+        <div class="step-body">
+          <div class="step-title">Service Objects & Groups</div>
+          <div class="step-desc">Custom service objects (TCP/UDP ports), service groups, application-default vs any. When to use application-default vs specific ports.</div>
+          <div class="step-meta">
+            <span class="step-pill time">⏱ 1 Day</span>
+            <span class="step-pill type">🖥️ Lab</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PHASE 4 -->
+  <div class="phase p4">
+    <div class="phase-header">
+      <div class="phase-num">04</div>
+      <div class="phase-info">
+        <h2>Security Profiles & Threat Prevention</h2>
+        <p>Week 6–7 · Content-ID, SSL Inspection, WildFire</p>
+      </div>
+      <div class="phase-tag">Advanced</div>
+    </div>
+    <div class="steps">
+      <div class="step" id="s14" onclick="toggle('s14')">
+        <div class="step-check"></div>
+        <div class="step-body">
+          <div class="step-title">Antivirus & Anti-Spyware Profiles</div>
+          <div class="step-desc">Configure Antivirus profiles (stream-based scanning), Anti-Spyware profiles for C2 detection, DNS sinkholing, botnet reports. Attach profiles to security rules.</div>
+          <div class="step-meta">
+            <span class="step-pill time">⏱ 2 Days</span>
+            <span class="step-pill type">🖥️ Lab</span>
+            <span class="step-pill prio">🔴 Critical</span>
+          </div>
+        </div>
+      </div>
+      <div class="step" id="s15" onclick="toggle('s15')">
+        <div class="step-check"></div>
+        <div class="step-body">
+          <div class="step-title">Vulnerability Protection Profiles</div>
+          <div class="step-desc">Protect against exploits with vulnerability protection. Custom threat signatures, exception handling, severity-based actions (alert, drop, reset).</div>
+          <div class="step-meta">
+            <span class="step-pill time">⏱ 1 Day</span>
+            <span class="step-pill type">🖥️ Lab</span>
+            <span class="step-pill prio">🔴 Critical</span>
+          </div>
+        </div>
+      </div>
+      <div class="step" id="s16" onclick="toggle('s16')">
+        <div class="step-check"></div>
+        <div class="step-body">
+          <div class="step-title">URL Filtering</div>
+          <div class="step-desc">PAN-DB URL categories, custom URL categories, block/alert/allow/continue/override actions. Safe search enforcement, log settings.</div>
+          <div class="step-meta">
+            <span class="step-pill time">⏱ 2 Days</span>
+            <span class="step-pill type">🖥️ Lab</span>
+            <span class="step-pill prio">🔴 Critical</span>
+          </div>
+        </div>
+      </div>
+      <div class="step" id="s17" onclick="toggle('s17')">
+        <div class="step-check"></div>
+        <div class="step-body">
+          <div class="step-title">File Blocking & WildFire</div>
+          <div class="step-desc">File blocking profiles, WildFire cloud analysis for unknown files, WildFire subscription, verdicts (benign/grayware/malware), WildFire real-time signatures.</div>
+          <div class="step-meta">
+            <span class="step-pill time">⏱ 2 Days</span>
+            <span class="step-pill type">🖥️ Lab</span>
+            <span class="step-pill prio">🟡 Important</span>
+          </div>
+        </div>
+      </div>
+      <div class="step" id="s18" onclick="toggle('s18')">
+        <div class="step-check"></div>
+        <div class="step-body">
+          <div class="step-title">SSL/TLS Decryption</div>
+          <div class="step-desc">Forward proxy vs inbound inspection, decryption profiles, SSL exclusions, certificate management, SSL decryption policy creation. Privacy considerations.</div>
+          <div class="step-meta">
+            <span class="step-pill time">⏱ 2 Days</span>
+            <span class="step-pill type">🖥️ Lab</span>
+            <span class="step-pill prio">🔴 Critical</span>
+          </div>
+        </div>
+      </div>
+      <div class="step" id="s19" onclick="toggle('s19')">
+        <div class="step-check"></div>
+        <div class="step-body">
+          <div class="step-title">DoS & Zone Protection</div>
+          <div class="step-desc">Zone protection profiles, DoS protection policies, flood protection (SYN, UDP, ICMP), reconnaissance protection, packet-based attack protection.</div>
+          <div class="step-meta">
+            <span class="step-pill time">⏱ 1 Day</span>
+            <span class="step-pill type">📚 Study</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PHASE 5 -->
+  <div class="phase p5">
+    <div class="phase-header">
+      <div class="phase-num">05</div>
+      <div class="phase-info">
+        <h2>VPN, Logging & Panorama</h2>
+        <p>Week 8–9 · Remote access, visibility, and centralized management</p>
+      </div>
+      <div class="phase-tag">Advanced</div>
+    </div>
+    <div class="steps">
+      <div class="step" id="s20" onclick="toggle('s20')">
+        <div class="step-check"></div>
+        <div class="step-body">
+          <div class="step-title">IPSec VPN (Site-to-Site)</div>
+          <div class="step-desc">IKE Phase 1 & Phase 2, tunnel interfaces, crypto profiles (IKE & IPSec), route-based vs policy-based VPN, monitoring tunnel status.</div>
+          <div class="step-meta">
+            <span class="step-pill time">⏱ 2 Days</span>
+            <span class="step-pill type">🖥️ Lab</span>
+            <span class="step-pill prio">🔴 Critical</span>
+          </div>
+        </div>
+      </div>
+      <div class="step" id="s21" onclick="toggle('s21')">
+        <div class="step-check"></div>
+        <div class="step-body">
+          <div class="step-title">GlobalProtect VPN (Remote Access)</div>
+          <div class="step-desc">GlobalProtect gateway/portal configuration, authentication profiles, agent settings, split tunneling, host information profile (HIP).</div>
+          <div class="step-meta">
+            <span class="step-pill time">⏱ 2 Days</span>
+            <span class="step-pill type">🖥️ Lab</span>
+            <span class="step-pill prio">🔴 Critical</span>
+          </div>
+        </div>
+      </div>
+      <div class="step" id="s22" onclick="toggle('s22')">
+        <div class="step-check"></div>
+        <div class="step-body">
+          <div class="step-title">Logging & Monitoring</div>
+          <div class="step-desc">Traffic, threat, URL, WildFire logs. Log forwarding to Syslog/SNMP/Email. Log profiles, Custom log formats. ACC (Application Command Center) dashboard.</div>
+          <div class="step-meta">
+            <span class="step-pill time">⏱ 2 Days</span>
+            <span class="step-pill type">🖥️ Lab</span>
+            <span class="step-pill prio">🟡 Important</span>
+          </div>
+        </div>
+      </div>
+      <div class="step" id="s23" onclick="toggle('s23')">
+        <div class="step-check"></div>
+        <div class="step-body">
+          <div class="step-title">Panorama Centralized Management</div>
+          <div class="step-desc">Panorama architecture, device groups, templates, template stacks, shared policies, log collector, push configuration, managed devices overview.</div>
+          <div class="step-meta">
+            <span class="step-pill time">⏱ 2 Days</span>
+            <span class="step-pill type">📚 Study</span>
+            <span class="step-pill prio">🟡 Important</span>
+          </div>
+        </div>
+      </div>
+      <div class="step" id="s24" onclick="toggle('s24')">
+        <div class="step-check"></div>
+        <div class="step-body">
+          <div class="step-title">High Availability (HA)</div>
+          <div class="step-desc">Active/Passive and Active/Active HA modes, HA1/HA2/HA3 links, preemption, failover triggers, session synchronization, HA monitoring.</div>
+          <div class="step-meta">
+            <span class="step-pill time">⏱ 1 Day</span>
+            <span class="step-pill type">📚 Study</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PHASE 6 -->
+  <div class="phase p6">
+    <div class="phase-header">
+      <div class="phase-num">06</div>
+      <div class="phase-info">
+        <h2>Exam Preparation & Practice</h2>
+        <p>Week 10–13 · Review, practice exams, and final prep</p>
+      </div>
+      <div class="phase-tag">Final</div>
+    </div>
+    <div class="steps">
+      <div class="step" id="s25" onclick="toggle('s25')">
+        <div class="step-check"></div>
+        <div class="step-body">
+          <div class="step-title">Full Topic Review & Gap Analysis</div>
+          <div class="step-desc">Review all exam objectives from Palo Alto's official study guide. Identify weak areas and create focused review sessions for each. Prioritize heavily tested topics.</div>
+          <div class="step-meta">
+            <span class="step-pill time">⏱ 1 Week</span>
+            <span class="step-pill type">📖 Review</span>
+            <span class="step-pill prio">🔴 Critical</span>
+          </div>
+        </div>
+      </div>
+      <div class="step" id="s26" onclick="toggle('s26')">
+        <div class="step-check"></div>
+        <div class="step-body">
+          <div class="step-title">Palo Alto EDU-110 Official Training</div>
+          <div class="step-desc">Complete the official Firewall Essentials (EDU-110) course from Palo Alto Networks. Free digital learning path available on the Beacon learning platform.</div>
+          <div class="step-meta">
+            <span class="step-pill time">⏱ 1 Week</span>
+            <span class="step-pill type">🎓 Course</span>
+            <span class="step-pill prio">🔴 Critical</span>
+          </div>
+        </div>
+      </div>
+      <div class="step" id="s27" onclick="toggle('s27')">
+        <div class="step-check"></div>
+        <div class="step-body">
+          <div class="step-title">Hands-On Lab Practice (PANOS VM)</div>
+          <div class="step-desc">Use PAN-OS VM-50 (free trial), GNS3/EVE-NG, or Palo Alto's learning labs. Practice every topic with real config. Focus on NAT, security policies, and SSL decryption labs.</div>
+          <div class="step-meta">
+            <span class="step-pill time">⏱ 2 Weeks</span>
+            <span class="step-pill type">🖥️ Lab</span>
+            <span class="step-pill prio">🔴 Critical</span>
+          </div>
+        </div>
+      </div>
+      <div class="step" id="s28" onclick="toggle('s28')">
+        <div class="step-check"></div>
+        <div class="step-body">
+          <div class="step-title">Practice Exams & Question Banks</div>
+          <div class="step-desc">Use Boson, MeasureUp, or ExamTopics for practice questions. Target 80%+ consistently before scheduling the real exam. Review all incorrect answers carefully.</div>
+          <div class="step-meta">
+            <span class="step-pill time">⏱ 1 Week</span>
+            <span class="step-pill type">✍️ Practice</span>
+            <span class="step-pill prio">🔴 Critical</span>
+          </div>
+        </div>
+      </div>
+      <div class="step" id="s29" onclick="toggle('s29')">
+        <div class="step-check"></div>
+        <div class="step-body">
+          <div class="step-title">Schedule & Take the Exam</div>
+          <div class="step-desc">Register via Pearson VUE (in-person) or OnVUE (online proctored). Take exam early in the day when focused. Trust your prep — you've got this! 🎯</div>
+          <div class="step-meta">
+            <span class="step-pill time">⏱ Day of</span>
+            <span class="step-pill type">🏆 Exam</span>
+            <span class="step-pill prio">🔴 Final Step</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RESOURCES -->
+  <div class="resources">
+    <h3>📚 Key Resources</h3>
+    <div class="res-grid">
+      <div class="res-item">
+        <div class="res-icon">🌐</div>
+        <div class="res-title">Palo Alto Beacon</div>
+        <div class="res-sub">learn.paloaltonetworks.com — Free official courses & learning paths</div>
+      </div>
+      <div class="res-item">
+        <div class="res-icon">📄</div>
+        <div class="res-title">EDU-110 Study Guide</div>
+        <div class="res-sub">Firewall Essentials: Configuration and Management (official book)</div>
+      </div>
+      <div class="res-item">
+        <div class="res-icon">🖥️</div>
+        <div class="res-title">PAN-OS VM-50 Trial</div>
+        <div class="res-sub">Free 60-day VM firewall for hands-on lab practice</div>
+      </div>
+      <div class="res-item">
+        <div class="res-icon">📝</div>
+        <div class="res-title">Pearson VUE</div>
+        <div class="res-sub">pearsonvue.com/paloalto — Official exam registration site</div>
+      </div>
+      <div class="res-item">
+        <div class="res-icon">💬</div>
+        <div class="res-title">Reddit r/paloaltonetworks</div>
+        <div class="res-sub">Community tips, study guides, and exam experiences</div>
+      </div>
+      <div class="res-item">
+        <div class="res-icon">🎥</div>
+        <div class="res-title">YouTube — Stacey Shiring</div>
+        <div class="res-sub">Free PCNSA video series — highly recommended for visual learners</div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  <p>Palo Alto PCNSA Study Roadmap · Built for success 🔥 · Good luck on your exam!</p>
+</footer>
+
+<script>
+  const TOTAL = 29;
+
+  function toggle(id) {
+    const el = document.getElementById(id);
+    el.classList.toggle('done');
+    saveProgress();
+    updateProgress();
+  }
+
+  function updateProgress() {
+    const done = document.querySelectorAll('.step.done').length;
+    const pct = Math.round((done / TOTAL) * 100);
+    document.getElementById('progressFill').style.width = pct + '%';
+    document.getElementById('progressPct').textContent = pct + '%';
+  }
+
+  function saveProgress() {
+    const done = [];
+    document.querySelectorAll('.step.done').forEach(el => done.push(el.id));
+    localStorage.setItem('pcnsa_progress', JSON.stringify(done));
+  }
+
+  function loadProgress() {
+    const saved = JSON.parse(localStorage.getItem('pcnsa_progress') || '[]');
+    saved.forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.classList.add('done');
+    });
+    updateProgress();
+  }
+
+  function resetAll() {
+    if (confirm('Reset all progress?')) {
+      document.querySelectorAll('.step.done').forEach(el => el.classList.remove('done'));
+      localStorage.removeItem('pcnsa_progress');
+      updateProgress();
+    }
+  }
+
+  loadProgress();
+</script>
+</body>
+</html>
